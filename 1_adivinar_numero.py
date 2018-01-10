@@ -1,8 +1,9 @@
-
-
-
 import random
+
+
 a=0
+
+
 while (5 > a):
 
     random_number = random.randrange(10)
