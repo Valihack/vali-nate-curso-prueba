@@ -6,4 +6,6 @@ for caracter in texto:
     if caracter in vocales:
         lista_vocales.append(caracter)
 
+
 print(lista_vocales)
+
