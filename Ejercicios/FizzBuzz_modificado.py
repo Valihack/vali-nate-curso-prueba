@@ -7,9 +7,7 @@ while len(numeros_usuario)<cantidad_numeros:
     numero_del_usuario=int(input("Introduce numero: "))
     numeros_usuario.append(numero_del_usuario)
     print("Añadido!")
-
 palabra=""
-
 for contador in range(len(numeros_usuario)):
     if numeros_usuario[contador] % 3 == 0:
         palabra+="Fizz"
