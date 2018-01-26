@@ -1,5 +1,4 @@
 import random
-
 #Se escoje el movimiento de la CPU de una posible partida ganadora
 def copiar_turno_cpu(lista, lista2):
     tablero_completado=lista2
@@ -101,11 +100,11 @@ gana_cpu=0
 while ganador<1:                                         #Codigo del funcionamiento de los turnos
     indice=0
     mostar_tablero(tablero_vacio)
-    if quien_empieza == 1:                               #Turno de la persona#casilla = int(input("En que casilla quieres tu ficha: "))-1#Seleccion de la casilla
+    if quien_empieza == 1:
+        casilla=int(input("Introduce tu casilla: "))-1     #Turno de la persona#casilla = int(input("En que casilla quieres tu ficha: "))-1#Seleccion de la casilla
         tablero_vacio[casilla]=1                         #Se añade ficha a casilla
-        print(probar_solucion(tablero_vacio, 1))
         if probar_solucion(tablero_vacio, 1) == 1:       #Se comprueba si el usuario ha ganado
-            gandor=1
+            ganador=1
             break
     quien_empieza = 0
     if quien_empieza==0:                                 #Turno de la cpu#
@@ -114,12 +113,11 @@ while ganador<1:                                         #Codigo del funcionamie
             tablero_autocompletado=list(cpu(tablero_de_juego))
             posible_ganador=probar_solucion(tablero_autocompletado, 2)#Se decide si puede ganar
         tablero_vacio = list(copiar_turno_cpu(tablero_vacio, tablero_autocompletado))#Se copia la jugada del CPU
-
         posible_ganador = 0                             #Resetea el bucle de posible ganadorprint(probar_solucion(tablero_vacio, 2))
         if probar_solucion(tablero_vacio, 2)==1:        #Comprueba si ha ganado el CPU
             ganador=2
+            break
     quien_empieza = 1
-
 if ganador == 1:                                        #Si el ganador es la persona
     print("Enhorabuena {} has ganado!".format(nombre_usuario))
 elif ganador == 2:                                      #Si el ganador es la CPU
