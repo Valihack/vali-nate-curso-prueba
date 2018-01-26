@@ -8,9 +8,9 @@ def rango(principio, numero, fin):
     else:
         return True
 
-principio=int(input("Introduce un número 1: "))
-fin=int(input("Introduce un número 2: "))
-numero=int(input("Introduce un número 3: "))
+principio=int(input("Introduce un principio: "))
+fin=int(input("Introduce un fin: "))
+numero=int(input("Introduce un número a comprobar: "))
 
 
 print(rango(principio, numero, fin))
