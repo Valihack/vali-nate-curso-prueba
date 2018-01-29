@@ -12,7 +12,7 @@ mes=int(input("Di el mes de tu cumpleaños (numericamente): "))
 ano=hoy.year
 dia_cumpleanos=datetime.datetime(day=dia, month=mes, year=ano )
 if dia_cumpleanos < hoy:
-    dia_cumpleanos=datetime.timedelta(days=dia, months=mes, year=ano+1 )
+    dia_cumpleanos=datetime.datetime(day=dia, month=mes, year=ano+1)
 
 
 restante=dia_cumpleanos-hoy
