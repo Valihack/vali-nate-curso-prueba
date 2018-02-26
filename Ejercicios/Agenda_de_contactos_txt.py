@@ -43,13 +43,14 @@ def add_contact(contacts):
     sleep(2)
 
 def remove_contact(contacts):
-
+    options = []
     print("\nQue contacto desea borrar?\n")
     i=0
     while i < len(contacts):
+        options.append(i)
         print(str(i+1), contacts[i]["name"])
         i+=1
-    numero = int(input("\nQue contacto desea borrar?: ")) - 1
+    numero = ask_until_correct_value(options)-1
     if numero >= 0:
         contacts.remove(contacts[numero])
         print("\nSe ha borrado correctamente\n")
@@ -101,7 +102,7 @@ def search_contact(contacts):
     contact_index = 0
 
     if len(contact_indexes) > 1:
-        option = ask_until_correct_value(contact_indexes)
+        contact_index = ask_until_correct_value(contact_indexes)
     elif len(contact_indexes) == 0:
         print("No se han encontrado, quieres volver a buscar?")
         if input("Eleccion [s/n]") == "s":
