@@ -149,22 +149,60 @@ def save_contacts(contacts):
         pickle.dump(contacts, save_file)
     print("Datos guardados correctamente")
 
-def show_loaded_contacts (contacts, frame_contact_list):
-    index=0
-    while index < len(contacts):
-        cols, rows = frame_contact_list.grid_size()
-        contact = contacts[index]
-        ttk.Label(frame_contact_list, text=contact["name"]).grid(column=1, row=rows, sticky=W)
-        ttk.Label(frame_contact_list, text=contact["second_name"]).grid(column=2, row=rows, sticky=W)
-        ttk.Label(frame_contact_list, text=contact["phone_number"]).grid(column=3, row=rows, sticky=W)
-        ttk.Label(frame_contact_list, text=contact["adress"]).grid(column=4, row=rows, sticky=W)
-        ttk.Label(frame_contact_list, text=contact["mail"]).grid(column=5, row=rows, sticky=W)
-        index +=1
+def show_loaded_contacts (contacts, frame_contact_list, search_term=None):
+    if search_term == None:
+        index = 0
+        while index < len(contacts):
+            cols, rows = frame_contact_list.grid_size()
+            contact = contacts[index]
+            ttk.Label(frame_contact_list, text=contact["name"]).grid(column=1, row=rows, sticky=W)
+            ttk.Label(frame_contact_list, text=contact["second_name"]).grid(column=2, row=rows, sticky=W)
+            ttk.Label(frame_contact_list, text=contact["phone_number"]).grid(column=3, row=rows, sticky=W)
+            ttk.Label(frame_contact_list, text=contact["adress"]).grid(column=4, row=rows, sticky=W)
+            ttk.Label(frame_contact_list, text=contact["mail"]).grid(column=5, row=rows, sticky=W)
+            index +=1
+    else:
+        found_contacts = []
+        for contact in contacts:
+            if contact["name"].find(search_term) >= 0:
+                found_contacts.append(contact)
+            if contact["mail"].find(search_term) >= 0:
+                found_contacts.append(contact)
+            if contact["second_name"].find(search_term) >= 0:
+                found_contacts.append(contact)
+            if contact["phone_number"].find(search_term) >= 0:
+                found_contacts.append(contact)
+            if contact["adress"].find(search_term) >= 0:
+                found_contacts.append(contact)
+        final_search = ask_same_contact(found_contacts)
+        index = 0
+        while index < len(final_search):
+            cols, rows = frame_contact_list.grid_size()
+            contact = final_search[index]
+            ttk.Label(frame_contact_list, text=contact["name"]).grid(column=1, row=rows, sticky=W)
+            ttk.Label(frame_contact_list, text=contact["second_name"]).grid(column=2, row=rows, sticky=W)
+            ttk.Label(frame_contact_list, text=contact["phone_number"]).grid(column=3, row=rows, sticky=W)
+            ttk.Label(frame_contact_list, text=contact["adress"]).grid(column=4, row=rows, sticky=W)
+            ttk.Label(frame_contact_list, text=contact["mail"]).grid(column=5, row=rows, sticky=W)
+            index += 1
+
+def ask_same_contact(found_contacts):
+    if len(found_contacts) == 1:
+        return found_contacts
+    else:
+        index = 0
+        while index < len(found_contacts):
+            contact=found_contacts[index]
+            list_pos=0
+            while list_pos < len(found_contacts):
+                if contact == found_contacts[list_pos]:
+                    found_contacts.remove(found_contacts[list_pos])
+                list_pos+=1
+            index+=1
+        return found_contacts
 
 def main():
-
     contacts = load_contact()
-
     #Editar contactos
     root = Tk()
     frame_add_contact = ttk.Frame(root, padding="50 50 50 50")
@@ -188,10 +226,17 @@ def main():
     ttk.Entry(frame_add_contact, width=20, textvariable=adress).grid(column=4, row=2, sticky=W)
     ttk.Entry(frame_add_contact, width=20, textvariable=mail).grid(column=5, row=2, sticky=W)
 
+    ttk.Label(frame_add_contact, text="").grid(column=1, row=4, sticky=W)
+
     ttk.Button(frame_add_contact,
                text="Añadir",
-               command=lambda: add_contacts_tk(contacts, name.get(), second_name.get(), phone.get(), adress.get(), mail.get(), frame_contact_list)).grid(column=5, row=4)
-
+               command=lambda: add_contacts_tk(contacts, name.get(), second_name.get(), phone.get(), adress.get(), mail.get(), frame_contact_list)).grid(column=5, row=7)
+  #Buscar contacto
+    search_term = StringVar()
+    ttk.Entry(frame_add_contact, width=20, textvariable=search_term).grid(column=1, row=7, sticky=W)
+    ttk.Button(frame_add_contact,
+               text="Buscar",
+               command=lambda: show_loaded_contacts(contacts, frame_contact_list, search_term.get())).grid(column=2, row=7, sticky=W)
     #Lista de contactos
 
     frame_contact_list = ttk.Frame(root, padding="50 0 50 50")
